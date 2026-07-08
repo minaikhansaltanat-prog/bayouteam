@@ -35,7 +35,7 @@ export function TaskDetailDialog({
   currentUserId,
   canEdit,
 }: {
-  taskId: string;
+  taskId: string | null;
   projectId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -53,7 +53,7 @@ export function TaskDetailDialog({
   const [, startTransition] = useTransition();
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || !taskId) return;
     setLoading(true);
     getTaskDetail(taskId).then((data) => {
       setDetail(data);
@@ -62,17 +62,19 @@ export function TaskDetailDialog({
   }, [open, taskId]);
 
   function refresh() {
+    if (!taskId) return;
     getTaskDetail(taskId).then(setDetail);
     router.refresh();
   }
 
   async function handleStatusChange(status: TaskStatus) {
+    if (!taskId) return;
     await updateTaskStatus(taskId, projectId, status);
     refresh();
   }
 
   async function handleChecklistToggle(itemId: string) {
-    if (!detail) return;
+    if (!detail || !taskId) return;
     const checklist = detail.task.checklist.map((item) =>
       item.id === itemId ? { ...item, done: !item.done } : item,
     );
@@ -82,7 +84,7 @@ export function TaskDetailDialog({
   }
 
   async function handleAddComment() {
-    if (!comment.trim()) return;
+    if (!comment.trim() || !taskId) return;
     const text = comment.trim();
     setComment("");
     startTransition(async () => {

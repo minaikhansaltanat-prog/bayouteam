@@ -27,6 +27,7 @@ export function TaskListView({
   const t = useTranslations();
   const [mineOnly, setMineOnly] = useState(false);
   const [detailTaskId, setDetailTaskId] = useState<string | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   const visibleTasks = useMemo(
     () =>
@@ -58,7 +59,14 @@ export function TaskListView({
             </h3>
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
               {group.map((task) => (
-                <TaskCard key={task.id} task={task} onClick={() => setDetailTaskId(task.id)} />
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  onClick={() => {
+                    setDetailTaskId(task.id);
+                    setDetailOpen(true);
+                  }}
+                />
               ))}
             </div>
           </section>
@@ -71,17 +79,15 @@ export function TaskListView({
         </p>
       )}
 
-      {detailTaskId && (
-        <TaskDetailDialog
-          taskId={detailTaskId}
-          projectId={projectId}
-          open={!!detailTaskId}
-          onOpenChange={(open) => !open && setDetailTaskId(null)}
-          members={members}
-          currentUserId={currentUserId}
-          canEdit={canEdit}
-        />
-      )}
+      <TaskDetailDialog
+        taskId={detailTaskId}
+        projectId={projectId}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        members={members}
+        currentUserId={currentUserId}
+        canEdit={canEdit}
+      />
     </div>
   );
 }

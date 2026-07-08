@@ -37,7 +37,7 @@ export function TaskFormDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
   projectId: string;
-  status: TaskStatus;
+  status: TaskStatus | null;
   members: Pick<Profile, "id" | "full_name" | "avatar_url">[];
 }) {
   const t = useTranslations();
@@ -69,7 +69,7 @@ export function TaskFormDialog({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim() || !status) return;
     setSubmitting(true);
 
     const due_at = dueDate ? new Date(`${dueDate}T${dueTime || "00:00"}:00+05:00`).toISOString() : null;

@@ -23,6 +23,7 @@ export function MeetingList({
 }) {
   const t = useTranslations("meetings");
   const [openMeeting, setOpenMeeting] = useState<MeetingWithProject | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   if (meetings.length === 0) {
     return <p className="py-10 text-center text-sm text-muted-foreground">{t("noMeetings")}</p>;
@@ -34,7 +35,10 @@ export function MeetingList({
         <button
           key={meeting.id}
           type="button"
-          onClick={() => setOpenMeeting(meeting)}
+          onClick={() => {
+            setOpenMeeting(meeting);
+            setDetailOpen(true);
+          }}
           className="flex cursor-pointer items-center justify-between gap-3 rounded-[var(--radius-lg)] border border-border bg-surface p-4 text-left shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
         >
           <div className="min-w-0 flex-1">
@@ -63,14 +67,12 @@ export function MeetingList({
         </button>
       ))}
 
-      {openMeeting && (
-        <MeetingDetailDialog
-          meeting={openMeeting}
-          members={members}
-          open={!!openMeeting}
-          onOpenChange={(open) => !open && setOpenMeeting(null)}
-        />
-      )}
+      <MeetingDetailDialog
+        meeting={openMeeting}
+        members={members}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+      />
     </div>
   );
 }

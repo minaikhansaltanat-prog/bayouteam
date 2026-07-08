@@ -54,7 +54,9 @@ export function KanbanBoard({
   const [mineOnly, setMineOnly] = useState(false);
   const [activeTask, setActiveTask] = useState<TaskWithRelations | null>(null);
   const [detailTaskId, setDetailTaskId] = useState<string | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
   const [createStatus, setCreateStatus] = useState<TaskStatus | null>(null);
+  const [createOpen, setCreateOpen] = useState(false);
 
   useEffect(() => setTasks(initialTasks), [initialTasks]);
 
@@ -154,8 +156,14 @@ export function KanbanBoard({
               key={status}
               status={status}
               tasks={columns[status]}
-              onAddTask={() => setCreateStatus(status)}
-              onTaskClick={(id) => setDetailTaskId(id)}
+              onAddTask={() => {
+                setCreateStatus(status);
+                setCreateOpen(true);
+              }}
+              onTaskClick={(id) => {
+                setDetailTaskId(id);
+                setDetailOpen(true);
+              }}
               canEdit={canEdit}
             />
           ))}
@@ -166,27 +174,23 @@ export function KanbanBoard({
         </DragOverlay>
       </DndContext>
 
-      {createStatus && (
-        <TaskFormDialog
-          open={!!createStatus}
-          onOpenChange={(open) => !open && setCreateStatus(null)}
-          projectId={projectId}
-          status={createStatus}
-          members={members}
-        />
-      )}
+      <TaskFormDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        projectId={projectId}
+        status={createStatus}
+        members={members}
+      />
 
-      {detailTaskId && (
-        <TaskDetailDialog
-          taskId={detailTaskId}
-          projectId={projectId}
-          open={!!detailTaskId}
-          onOpenChange={(open) => !open && setDetailTaskId(null)}
-          members={members}
-          currentUserId={currentUserId}
-          canEdit={canEdit}
-        />
-      )}
+      <TaskDetailDialog
+        taskId={detailTaskId}
+        projectId={projectId}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        members={members}
+        currentUserId={currentUserId}
+        canEdit={canEdit}
+      />
     </div>
   );
 }

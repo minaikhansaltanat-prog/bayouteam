@@ -23,7 +23,7 @@ export function MeetingDetailDialog({
   open,
   onOpenChange,
 }: {
-  meeting: Meeting & { project?: { id: string; name: string } | null };
+  meeting: (Meeting & { project?: { id: string; name: string } | null }) | null;
   members: Pick<Profile, "id" | "full_name" | "avatar_url">[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -34,10 +34,22 @@ export function MeetingDetailDialog({
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
 
+  if (!meeting) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-xl" />
+      </Dialog>
+    );
+  }
+
+  // Closures below don't retain control-flow narrowing on `meeting` itself,
+  // so bind it to a new, permanently non-null const first.
+  const currentMeeting = meeting;
+
   async function handleAddDecision() {
     if (!decisionText.trim()) return;
     setAdding(true);
-    await addMeetingDecision(meeting.id, {
+    await addMeetingDecision(currentMeeting.id, {
       text: decisionText.trim(),
       assignee_id: assigneeId,
       due_at: null,
@@ -49,8 +61,8 @@ export function MeetingDetailDialog({
   }
 
   async function handleConvert(decisionId: string) {
-    if (!meeting.project?.id) return;
-    await convertDecisionToTask(meeting.id, meeting.project.id, decisionId);
+    if (!currentMeeting.project?.id) return;
+    await convertDecisionToTask(currentMeeting.id, currentMeeting.project.id, decisionId);
     router.refresh();
   }
 
