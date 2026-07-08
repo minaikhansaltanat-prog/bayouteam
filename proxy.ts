@@ -69,5 +69,10 @@ async function handleAuth(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+  // `/auth/callback` is intentionally NOT locale-prefixed (it's a fixed
+  // OAuth redirect target) and must never be touched by this proxy: the
+  // i18n redirect would prepend a locale segment, and the auth gate below
+  // would bounce it straight back to /login before the code exchange ever
+  // runs (no session cookie exists yet at that point in the flow).
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|auth|.*\\..*).*)"],
 };
