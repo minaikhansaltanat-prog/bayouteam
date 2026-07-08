@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Menu, LogOut } from "lucide-react";
+import { Menu, LogOut, HelpCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { NavList } from "./nav-list";
 import { LocaleSwitcher } from "./locale-switcher";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { initials } from "@/lib/utils";
 import type { Profile } from "@/lib/types/database";
 
@@ -69,6 +69,15 @@ export function MobileNav({ profile }: { profile: Profile }) {
           </div>
 
           <NavList role={profile.role} variant="sheet" onNavigate={() => setOpen(false)} />
+
+          <Link
+            href="/help"
+            onClick={() => setOpen(false)}
+            className="flex min-h-[44px] items-center gap-3 rounded-[var(--radius-md)] px-4 py-3.5 text-base font-medium text-foreground transition-colors hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+          >
+            <HelpCircle className="h-5 w-5 opacity-80" strokeWidth={2} />
+            {t("nav.help")}
+          </Link>
 
           <div className="flex items-center justify-between border-t border-border pt-5">
             <LocaleSwitcher />

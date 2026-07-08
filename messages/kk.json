@@ -53,7 +53,10 @@
     "profile": "Профиль",
     "openMenu": "Мәзірді ашу",
     "closeMenu": "Мәзірді жабу",
-    "notifications": "Хабарламалар"
+    "notifications": "Хабарламалар",
+    "help": "Көмек",
+    "helpLoginPrompt": "Кіру қиынға түсіп жатыр ма?",
+    "helpLoginLink": "Қалай кіру керек?"
   },
   "auth": {
     "loginTitle": "Командаңызбен бір жерде жұмыс істеңіз",

@@ -53,7 +53,10 @@
     "profile": "Профиль",
     "openMenu": "Открыть меню",
     "closeMenu": "Закрыть меню",
-    "notifications": "Уведомления"
+    "notifications": "Уведомления",
+    "help": "Помощь",
+    "helpLoginPrompt": "Не получается войти?",
+    "helpLoginLink": "Как войти?"
   },
   "auth": {
     "loginTitle": "Работайте с командой в одном месте",

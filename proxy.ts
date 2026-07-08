@@ -5,7 +5,7 @@ import { routing } from "./i18n/routing";
 
 const handleI18nRouting = createIntlMiddleware(routing);
 
-const PUBLIC_SEGMENTS = ["login"];
+const PUBLIC_SEGMENTS = ["login", "help"];
 
 export function proxy(request: NextRequest) {
   return handleAuth(request);

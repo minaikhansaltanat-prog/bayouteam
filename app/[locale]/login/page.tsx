@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { AlertTriangle, CalendarCheck2, MessagesSquare, Users2 } from "lucide-react";
+import { AlertTriangle, CalendarCheck2, HelpCircle, MessagesSquare, Users2 } from "lucide-react";
 import { GoogleLoginButton } from "@/components/auth/google-login-button";
+import { Link } from "@/i18n/navigation";
 
 export default async function LoginPage({
   params,
@@ -110,6 +111,14 @@ export default async function LoginPage({
               {t("loginFooter")}
             </p>
           </div>
+
+          <Link
+            href="/help"
+            className="mt-5 flex items-center justify-center gap-1.5 text-sm font-medium text-navy-700 transition-colors hover:text-navy-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 rounded-[var(--radius-sm)]"
+          >
+            <HelpCircle className="h-4 w-4" />
+            {locale === "kk" ? "Кіру қиынға түсіп жатыр ма? Қалай кіру керек?" : "Не получается войти? Как войти?"}
+          </Link>
         </div>
       </div>
     </div>
