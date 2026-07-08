@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ScrollLockGuard } from "@/components/layout/scroll-lock-guard";
 import "../globals.css";
 
 const playfair = Playfair_Display({
@@ -52,6 +53,7 @@ export default async function RootLayout({
       <body className="min-h-full bg-background text-foreground">
         <NextIntlClientProvider messages={messages}>
           <TooltipProvider delayDuration={300}>{children}</TooltipProvider>
+          <ScrollLockGuard />
         </NextIntlClientProvider>
       </body>
     </html>
