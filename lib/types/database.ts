@@ -20,8 +20,6 @@ export interface Profile {
   skills: string[];
   role: Role;
   locale: "kk" | "ru";
-  error_limit: number | null;
-  error_count: number;
   is_blocked: boolean;
   notification_channels: NotificationChannel[];
   created_at: string;
@@ -76,8 +74,6 @@ export interface Task {
   position: number;
   deleted_at: string | null;
   created_at: string;
-  assignee?: Profile;
-  helper_profiles?: Profile[];
 }
 
 export interface TaskChainStep {

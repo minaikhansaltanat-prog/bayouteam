@@ -17,10 +17,12 @@ export default async function AppLayout({
   const profile = await getCurrentProfile();
   if (!profile) {
     redirect({ href: "/login", locale });
+    return null;
   }
 
   if (profile.is_blocked) {
     redirect({ href: "/login?blocked=1", locale });
+    return null;
   }
 
   return (

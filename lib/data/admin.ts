@@ -3,8 +3,8 @@ import { isDevPreview, MOCK_TEAM } from "@/lib/dev/mock-data";
 import type { AuditLogEntry, Profile } from "@/lib/types/database";
 
 export interface MemberWithLimit extends Profile {
-  error_limit?: number | null;
-  error_count?: number;
+  error_limit: number | null;
+  error_count: number;
 }
 
 export async function getAllMembers(): Promise<MemberWithLimit[]> {
