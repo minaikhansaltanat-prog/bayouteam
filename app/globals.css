@@ -128,7 +128,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
-  overscroll-behavior-y: none;
 }
 
 body.nav-open {
