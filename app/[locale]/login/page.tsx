@@ -78,13 +78,8 @@ export default async function LoginPage({
         <div className="w-full max-w-sm">
           <div className="mb-8 flex flex-col items-center gap-4 text-center lg:hidden">
             <Image src="/logo-mark.svg" alt="" width={48} height={48} />
-            <div>
-              <div className="font-display text-xl font-semibold text-foreground">
-                BaYou team
-              </div>
-              <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                Hostel Management Platform
-              </div>
+            <div className="font-display text-xl font-semibold text-foreground">
+              BaYou team
             </div>
           </div>
 

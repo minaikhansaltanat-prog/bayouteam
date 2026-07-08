@@ -43,13 +43,8 @@ export function MobileNav({ profile }: { profile: Profile }) {
         <div className="flex flex-col gap-6 px-5 pb-6 pt-16">
           <div className="flex items-center gap-2.5">
             <Image src="/logo-mark.svg" alt="" width={32} height={32} />
-            <div className="leading-tight">
-              <div className="font-display text-base font-semibold text-foreground">
-                BaYou team
-              </div>
-              <div className="text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
-                Hostel Management
-              </div>
+            <div className="font-display text-base font-semibold text-foreground">
+              BaYou team
             </div>
           </div>
 

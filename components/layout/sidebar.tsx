@@ -15,13 +15,8 @@ export function Sidebar({ role }: { role: Role }) {
             height={34}
             className="shrink-0"
           />
-          <div className="leading-tight">
-            <div className="font-display text-lg font-semibold tracking-tight text-white">
-              BaYou team
-            </div>
-            <div className="text-[10px] font-medium uppercase tracking-[0.16em] text-gold-400">
-              Hostel Management
-            </div>
+          <div className="font-display text-lg font-semibold tracking-tight text-white">
+            BaYou team
           </div>
         </Link>
       </div>
