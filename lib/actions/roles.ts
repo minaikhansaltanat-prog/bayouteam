@@ -45,6 +45,45 @@ export async function setUserBlocked(userId: string, isBlocked: boolean) {
   return { data: true };
 }
 
+// Not a hard delete: the auth/profile row stays so historical tasks,
+// comments, and audit entries still resolve to a real name. This blocks
+// login, drops every project membership, and revokes the invite so the
+// person can't be re-admitted just by someone flipping "unblock".
+export async function removeMember(userId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: target } = await supabase
+    .from("profiles")
+    .select("email")
+    .eq("id", userId)
+    .single();
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ is_blocked: true })
+    .eq("id", userId);
+  if (error) return { error: error.message };
+
+  await supabase.from("project_members").delete().eq("user_id", userId);
+
+  if (target?.email) {
+    await supabase.from("allowed_emails").delete().eq("email", target.email);
+  }
+
+  await supabase.from("audit_log").insert({
+    user_id: user?.id,
+    action: "member.remove",
+    resource: `user:${userId}`,
+    details: { email: target?.email },
+  });
+
+  revalidatePath("/admin");
+  return { data: true };
+}
+
 export async function setErrorLimit(userId: string, errorLimit: number | null) {
   const supabase = await createClient();
   const { error } = await supabase

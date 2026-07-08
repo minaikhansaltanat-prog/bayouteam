@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Ban, CheckCircle2, Mail, Plus } from "lucide-react";
+import { Ban, CheckCircle2, Mail, Plus, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import {
 import {
   changeUserRole,
   inviteMember,
+  removeMember,
   setErrorLimit,
   setUserBlocked,
 } from "@/lib/actions/roles";
@@ -56,6 +57,15 @@ export function MembersPanel({ members }: { members: MemberWithLimit[] }) {
   async function handleLimitChange(userId: string, value: string) {
     const limit = value === "" ? null : Number(value);
     await setErrorLimit(userId, limit);
+    router.refresh();
+  }
+
+  async function handleRemove(userId: string, name: string | null) {
+    const confirmed = window.confirm(
+      t("admin.deleteUserConfirm", { name: name ?? "" }),
+    );
+    if (!confirmed) return;
+    await removeMember(userId);
     router.refresh();
   }
 
@@ -146,18 +156,28 @@ export function MembersPanel({ members }: { members: MemberWithLimit[] }) {
               )}
 
               {member.role !== "owner" && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleBlockToggle(member.id, !member.is_blocked)}
-                >
-                  {member.is_blocked ? (
-                    <CheckCircle2 className="h-3.5 w-3.5" />
-                  ) : (
-                    <Ban className="h-3.5 w-3.5" />
-                  )}
-                  {member.is_blocked ? t("admin.unblockUser") : t("admin.blockUser")}
-                </Button>
+                <>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleBlockToggle(member.id, !member.is_blocked)}
+                  >
+                    {member.is_blocked ? (
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                    ) : (
+                      <Ban className="h-3.5 w-3.5" />
+                    )}
+                    {member.is_blocked ? t("admin.unblockUser") : t("admin.blockUser")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={() => handleRemove(member.id, member.full_name)}
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    {t("admin.deleteUser")}
+                  </Button>
+                </>
               )}
             </div>
           </div>
