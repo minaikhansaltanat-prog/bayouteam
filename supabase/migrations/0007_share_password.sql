@@ -3,7 +3,7 @@ create or replace function crypt_password(plain text)
 returns text
 language sql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
   select crypt(plain, gen_salt('bf'));
 $$;

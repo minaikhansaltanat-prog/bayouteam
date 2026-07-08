@@ -264,7 +264,7 @@ create or replace function resolve_share_link(p_token text, p_password text defa
 returns jsonb
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   link share_links%rowtype;
